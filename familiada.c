@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
                 sigArg = 1;
         }
     }
-    int paraNum = 1;
+    int paraNum;
     if(sigArg == 1) {
         if (argc > 7)
             paraNum = (argc - 7) * 2;
@@ -136,7 +136,6 @@ void parameters(int* sig, float* add, float * delay, float * noKill, float * ans
     char *endptr;
     char *secendptr;
     int i = 1;
-
     *add = -1;
     *noKill = -1;
     *delay = -1;
@@ -145,7 +144,7 @@ void parameters(int* sig, float* add, float * delay, float * noKill, float * ans
     *sig = SIGHUP;
 
     opterr = 0;
-    int optHelp = 0;
+    int optHelp;
 
     while(*argv[i] != '-')
     {
@@ -300,7 +299,6 @@ void parameters(int* sig, float* add, float * delay, float * noKill, float * ans
                         break;
                 }
             }
-
         }
     }
     if(*delay == -1 || *add == -1)
