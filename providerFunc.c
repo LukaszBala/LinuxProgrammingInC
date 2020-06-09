@@ -77,5 +77,6 @@ void sigAnswer(int sig, siginfo_t *info, void *ucontext){
 
 void onAlarm(){
     resourceVal+=addValue;
-//    printf("res: %f, demand: %f, received: %d\n", resourceVal, demandValue, counter);
+    if(PRINT == 1)
+        printf("res: %f, demand: %f, received: %d\n", resourceVal, demandValue, counter);
 }

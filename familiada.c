@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-#define PRINTARGS 0
+#define PRINT 0
 
 int set_cloexec_flag (int desc, int value);
 void parameters(int* sig, float* add, float * delay, float * noKill, float * answer, float* parasite, int argc, char* argv[]);
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
     float add, delay, noKill, answer;
     parameters(&sig, &add, &delay, &noKill, &answer, point,argc,argv);
 
-    if(PRINTARGS == 1) {
+    if(PRINT == 1) {
         printf("signal: %d, addValue: %f, Delay: %f, noKill: %f, answer: %f\n", sig, add, delay, noKill, answer);
         for (int i = 0; i < paraNum; i += 2) {
             printf("parasite args: %f, %f\n", parasite[i], parasite[i + 1]);
@@ -77,8 +77,7 @@ int main(int argc, char* argv[]){
     sprintf(providerArgs[0], "%d ", sig);
     sprintf(providerArgs[1], "%f/%f ", add,delay);
     sprintf(providerArgs[2], "%f/%f ", noKill,answer);
-    int grandpaPid;
-    grandpaPid = getpid();
+    int grandpaPid = getpid();
     pid_t pidParent = fork();
     if (pidParent == 0) {
         for (int i = 0; i < paraNum; i += 2) {
@@ -102,8 +101,7 @@ int main(int argc, char* argv[]){
             }
         }
         exit(0);
-    } else
-        waitpid(pidParent,0,0);
+    }
     if(dup2(pipefd[0], STDIN_FILENO)== -1){
         fprintf(stderr,"Error: Changing StdIn failed\n");
         exit(errno);
@@ -239,6 +237,7 @@ void parameters(int* sig, float* add, float * delay, float * noKill, float * ans
                 }
                 if((optopt == ':' && *(argv[optind]+1) != optopt) || (optopt == '/' && *(argv[optind]+1) != optopt) || (optopt == '-' && *(argv[optind]+1) != optopt)){
                     optHelp = -1;
+                    if(*(argv[optind]+1) >= 48 && *(argv[optind]+1) <= 57)
                     break;
                 }
                 fprintf(stderr,"Avaible flags: -s <int> -h <float>/<float> -r <float>/<float> positional arg <float>:<float>");

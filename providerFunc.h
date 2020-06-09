@@ -7,6 +7,8 @@
 #include <time.h>
 #include <sys/time.h>
 
+#define PRINT 0
+
 float addValue;
 float resourceVal;
 typedef enum {false,true} bool;
